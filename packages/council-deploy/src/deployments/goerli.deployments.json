@@ -203,6 +203,74 @@
           "name": "Airdrop"
         }
       ]
+    },
+    {
+      "name": "Hats Demo Council",
+      "timestamp": 1684192605639,
+      "signer": "0x2A069e21395DC7f89F780F8cf5383a0Ff598B672",
+      "contracts": [
+        {
+          "address": "0x76895012FE489E129708bF07E3116aB01CF7bD94",
+          "name": "Treasury",
+          "deploymentArgs": ["0x7fC93edB17089E37926A905dD0145EeE672103cC"]
+        },
+        {
+          "address": "0x5EEaE7649889561C5EA704d2234f9FfFD94AdbA9",
+          "name": "CoreVoting",
+          "deploymentArgs": [
+            "0x2A069e21395DC7f89F780F8cf5383a0Ff598B672",
+            "0x1bc16d674ec80000",
+            "0x0de0b6b3a7640000",
+            "0xa74df9EE8E30326d219427339a607a8A6d4F27B9",
+            ["0x1ba28514444198651599e3b4aa60fab78663c264"]
+          ]
+        },
+        {
+          "address": "0xa74df9EE8E30326d219427339a607a8A6d4F27B9",
+          "name": "GSCCoreVoting",
+          "deploymentArgs": [
+            "0x2A069e21395DC7f89F780F8cf5383a0Ff598B672",
+            "0x0de0b6b3a7640000",
+            "0x0de0b6b3a7640000",
+            "0x0000000000000000000000000000000000000000",
+            []
+          ]
+        },
+        {
+          "address": "0x2081eDC8De3e58966443ba66C5232d9128C3f234",
+          "name": "GSCVault",
+          "deploymentArgs": [
+            "0x5EEaE7649889561C5EA704d2234f9FfFD94AdbA9",
+            "0x056bc75e2d63100000",
+            "0x2A069e21395DC7f89F780F8cf5383a0Ff598B672"
+          ]
+        },
+        {
+          "address": "0x96bee8CfB271Cf523BAE9B49026779cb210e7ff4",
+          "name": "LockingVault",
+          "deploymentArgs": [
+            "0x27e0a29860CC04C45d596FA14d6f7E28F8969962",
+            300000
+          ]
+        },
+        {
+          "address": "0xB0A8EDb342650aBc26C3e22F79A4952acEf750A6",
+          "name": "LockingVaultProxy",
+          "deploymentArgs": [
+            "0x7fC93edB17089E37926A905dD0145EeE672103cC",
+            "0x96bee8CfB271Cf523BAE9B49026779cb210e7ff4"
+          ]
+        },
+        {
+          "address": "0x7fC93edB17089E37926A905dD0145EeE672103cC",
+          "name": "Timelock",
+          "deploymentArgs": [
+            10,
+            "0x2A069e21395DC7f89F780F8cf5383a0Ff598B672",
+            "0xa74df9EE8E30326d219427339a607a8A6d4F27B9"
+          ]
+        }
+      ]
     }
   ]
 }

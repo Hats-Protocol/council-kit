@@ -29,11 +29,11 @@ export async function deployCouncil(signer: Signer): Promise<
 
   // The voting token is used to determine voting power in the Locking Vault and
   // Vesting Vault. It has no dependencies on any of the council contracts.
-  let votingTokenAddress = process.env.VOTING_TOKEN_ADDRESS;
+  let votingTokenAddress = "0x27e0a29860CC04C45d596FA14d6f7E28F8969962";
   if (!votingTokenAddress) {
     const votingToken = await deployVotingToken({
-      tokenName: "Council Voting Token",
-      tokenSymbol: "CVT",
+      tokenName: "Hats Demo Council Voting Token",
+      tokenSymbol: "HDCVT",
       signer,
     });
     votingTokenAddress = votingToken.address;
@@ -56,7 +56,8 @@ export async function deployCouncil(signer: Signer): Promise<
     // the normal proposal flow.
     ownerAddress: signerAddress,
     // base quorum is 1 so it only takes 1 gsc member to pass a proposal
-    baseQuorum: process.env.GSC_BASE_QUORUM ?? "1",
+    // baseQuorum: process.env.GSC_BASE_QUORUM ?? "1",
+    baseQuorum: "1",
     lockDuration: +(
       process.env.GSC_LOCK_DURATION ?? (isLocalHost ? "0" : "10")
     ),
@@ -110,28 +111,33 @@ export async function deployCouncil(signer: Signer): Promise<
   // The Vesting Vault is similar to the Locking Vault, however the voting power
   // isn't 1:1 with the number of deposited voting tokens. There are also limits
   // on withdrawing tokens as defined by a vesting schedule.
-  const { vestingVault, vestingVaultProxy } = await deployVestingVault({
-    signer,
-    votingTokenAddress,
-    // Set the Timelock as the owner of the proxy contract so that upgrades must
-    // go through the normal proposal flow
-    proxyOwnerAddress: timelock.address,
-    timelockAddress: timelock.address,
-    // 300k blocks ~ 1 week on goerli
-    staleBlockLag: isLocalHost ? 10 : 300_000,
-  });
+  // const { vestingVault, vestingVaultProxy } = await deployVestingVault({
+  //   signer,
+  //   votingTokenAddress,
+  //   // Set the Timelock as the owner of the proxy contract so that upgrades must
+  //   // go through the normal proposal flow
+  //   proxyOwnerAddress: timelock.address,
+  //   timelockAddress: timelock.address,
+  //   // 300k blocks ~ 1 week on goerli
+  //   staleBlockLag: isLocalHost ? 10 : 300_000,
+  // });
+
+  // custom voting vault using hats
+  const hatsHighCouncilVotingVaultAddress =
+    "0x1ba28514444198651599e3b4aa60fab78663c264";
 
   const coreVoting = await deployCoreVoting({
     signer,
     timelockAddress: timelock.address,
     votingVaultAddresses: [
-      lockingVaultProxy.address,
-      vestingVaultProxy.address,
+      // lockingVaultProxy.address,
+      // vestingVaultProxy.address,
+      hatsHighCouncilVotingVaultAddress,
     ],
-    // set quorum to 50 ELFI so any test account can pass a vote
-    baseQuorum: process.env.BASE_QUORUM ?? "50",
-    // set minProposalPower to 50 ELFI so any test account can make a proposal
-    minProposalPower: process.env.MIN_PROPOSAL_POWER ?? "50",
+    // set quorum to 2 so any two hat wearers can pass a test proposal
+    baseQuorum: process.env.BASE_QUORUM ?? "2",
+    // set minProposalPower to 1 so any hat wearer can submit a test proposal
+    minProposalPower: process.env.MIN_PROPOSAL_POWER ?? "1",
     // the GSC does not have a voting power requirement to submit a proposal
     gscCoreVotingAddress: gscCoreVoting.address,
     // can execute a proposal 10 blocks after it gets created
@@ -178,8 +184,8 @@ export async function deployCouncil(signer: Signer): Promise<
     lockingVault,
     lockingVaultProxy,
     timelock,
-    vestingVault,
-    vestingVaultProxy,
+    // vestingVault,
+    // vestingVaultProxy,
   );
   return deployedContracts;
 }
